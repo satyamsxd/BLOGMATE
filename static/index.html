@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Blogy — AI-powered content intelligence engine that converts keywords into high-ranking, GEO-optimized blog posts through a multi-stage reasoning pipeline with multi-provider AI fallback.">
+  <title>Blogy — AI Content Intelligence Engine</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <!-- Animated Background -->
+  <canvas id="particle-canvas"></canvas>
+
+  <div class="app-container">
+
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-top">
+        <div class="logo">
+          <div class="logo-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="logo-text">Blogy</div>
+        </div>
+        <div class="header-actions">
+          <button class="icon-btn" id="history-toggle-btn" onclick="toggleHistory()" title="Generation History">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+            <span class="history-badge" id="history-badge">0</span>
+          </button>
+          <div class="provider-status" id="provider-status" title="AI Providers">
+            <div class="provider-dot"></div>
+            <span class="provider-text">Loading...</span>
+          </div>
+        </div>
+      </div>
+      <p class="app-tagline">AI Content Intelligence Engine — Keyword to Ranking-Ready Blog</p>
+      <p class="app-subtitle">Multi-provider AI with automatic fallback • 6-stage reasoning pipeline • GEO + SEO optimized</p>
+    </header>
+
+    <!-- Input -->
+    <section class="input-section" id="input-section">
+      <div class="input-wrapper">
+        <div class="input-field-group">
+          <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          <input type="text" class="keyword-input" id="keyword-input" placeholder="Enter a keyword (e.g. content marketing strategy)" autocomplete="off">
+        </div>
+        <button class="generate-btn" id="generate-btn" onclick="startGeneration()">
+          <span class="btn-text">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: -3px; margin-right: 6px;">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+            Generate Blog
+          </span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Error Banner -->
+    <div class="error-banner" id="error-banner">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <span id="error-text"></span>
+    </div>
+
+    <!-- Pipeline Progress -->
+    <section class="pipeline-progress" id="pipeline-progress">
+      <div class="pipeline-header">
+        <span class="pipeline-title">Pipeline Progress</span>
+        <span class="pipeline-timer" id="pipeline-timer">0.0s</span>
+      </div>
+      <div class="pipeline-stages" id="pipeline-stages">
+        <div class="stage-item" data-stage="1">
+          <div class="stage-num">1</div>
+          <div class="stage-label">Keyword Intel</div>
+          <div class="stage-time" data-time="1"></div>
+        </div>
+        <div class="stage-connector"></div>
+        <div class="stage-item" data-stage="2">
+          <div class="stage-num">2</div>
+          <div class="stage-label">SERP Analysis</div>
+          <div class="stage-time" data-time="2"></div>
+        </div>
+        <div class="stage-connector"></div>
+        <div class="stage-item" data-stage="3">
+          <div class="stage-num">3</div>
+          <div class="stage-label">Strategy</div>
+          <div class="stage-time" data-time="3"></div>
+        </div>
+        <div class="stage-connector"></div>
+        <div class="stage-item" data-stage="4">
+          <div class="stage-num">4</div>
+          <div class="stage-label">Generation</div>
+          <div class="stage-time" data-time="4"></div>
+        </div>
+        <div class="stage-connector"></div>
+        <div class="stage-item" data-stage="5">
+          <div class="stage-num">5</div>
+          <div class="stage-label">SEO Check</div>
+          <div class="stage-time" data-time="5"></div>
+        </div>
+        <div class="stage-connector"></div>
+        <div class="stage-item" data-stage="6">
+          <div class="stage-num">6</div>
+          <div class="stage-label">Linking</div>
+          <div class="stage-time" data-time="6"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Output -->
+    <section class="output-section" id="output-section">
+
+      <!-- Generation Meta Bar -->
+      <div class="generation-meta-bar" id="generation-meta-bar">
+        <div class="meta-chips">
+          <span class="meta-chip" id="chip-time">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span id="total-time">—</span>
+          </span>
+          <span class="meta-chip" id="chip-provider">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>
+            <span id="provider-used">—</span>
+          </span>
+          <span class="meta-chip" id="chip-words">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+            <span id="total-words">—</span>
+          </span>
+        </div>
+        <div class="export-actions">
+          <button class="export-btn" onclick="copyMarkdown()" title="Copy as Markdown">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            MD
+          </button>
+          <button class="export-btn" onclick="copyHTML()" title="Copy as HTML">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            HTML
+          </button>
+          <button class="export-btn primary" onclick="downloadMD()" title="Download .md file">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+          </button>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <nav class="tabs-nav" id="tabs-nav">
+        <button class="tab-btn active" data-tab="blog" onclick="switchTab('blog')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Blog
+        </button>
+        <button class="tab-btn" data-tab="seo" onclick="switchTab('seo')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+          SEO Analysis
+        </button>
+        <button class="tab-btn" data-tab="serp" onclick="switchTab('serp')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          SERP Gaps
+        </button>
+        <button class="tab-btn" data-tab="links" onclick="switchTab('links')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          Links
+        </button>
+        <button class="tab-btn" data-tab="snippet" onclick="switchTab('snippet')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 12h.01"/><path d="M17 12h.01"/><path d="M7 12h.01"/></svg>
+          Snippets
+        </button>
+        <button class="tab-btn" data-tab="strategy" onclick="switchTab('strategy')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4"/><path d="M12 16V8"/></svg>
+          Strategy
+        </button>
+      </nav>
+
+      <!-- Tab: Blog -->
+      <div class="tab-panel active" id="panel-blog">
+        <div class="content-card">
+          <div id="blog-meta-preview"></div>
+          <div id="blog-stats-bar"></div>
+          <div class="blog-content" id="blog-rendered"></div>
+        </div>
+      </div>
+
+      <!-- Tab: SEO Analysis -->
+      <div class="tab-panel" id="panel-seo">
+        <div class="score-dashboard" id="seo-scores"></div>
+        <div class="content-card">
+          <div class="card-title"><span class="icon">📋</span> SEO Breakdown</div>
+          <div id="seo-breakdown"></div>
+        </div>
+        <div class="content-card">
+          <div class="card-title"><span class="icon">📖</span> Readability</div>
+          <div id="readability-info"></div>
+        </div>
+        <div class="content-card">
+          <div class="card-title"><span class="icon">📊</span> Keyword Density Report</div>
+          <div id="keyword-density"></div>
+        </div>
+        <div class="content-card">
+          <div class="card-title"><span class="icon">🤖</span> Naturalness Analysis</div>
+          <div id="naturalness-info"></div>
+        </div>
+      </div>
+
+      <!-- Tab: SERP Gaps -->
+      <div class="tab-panel" id="panel-serp">
+        <div class="content-card">
+          <div class="card-title"><span class="icon">🔍</span> SERP Gap Visualizer</div>
+          <p id="gap-summary" class="gap-summary-text"></p>
+          <div class="gap-grid" id="gap-grid"></div>
+        </div>
+      </div>
+
+      <!-- Tab: Internal Links -->
+      <div class="tab-panel" id="panel-links">
+        <div class="content-card">
+          <div class="card-title"><span class="icon">🔗</span> Internal Linking Suggestions</div>
+          <div id="links-list"></div>
+        </div>
+      </div>
+
+      <!-- Tab: Snippet Readiness -->
+      <div class="tab-panel" id="panel-snippet">
+        <div class="content-card">
+          <div class="card-title"><span class="icon">✂️</span> Snippet Readiness Report</div>
+          <div id="snippet-score-area"></div>
+          <ul class="checklist" id="snippet-checklist"></ul>
+        </div>
+      </div>
+
+      <!-- Tab: Strategy -->
+      <div class="tab-panel" id="panel-strategy">
+        <div class="content-card">
+          <div class="card-title"><span class="icon">🎯</span> Why This Content Can Rank</div>
+          <ul class="strategy-list" id="rank-reasons"></ul>
+        </div>
+        <div class="content-card">
+          <div class="card-title"><span class="icon">⚔️</span> Competitive Advantages</div>
+          <ul class="strategy-list" id="competitive-advantages"></ul>
+        </div>
+        <div class="content-card">
+          <div class="card-title"><span class="icon">🗂️</span> Content Outline & Keyword Map</div>
+          <div id="outline-map"></div>
+        </div>
+        <div class="content-card">
+          <div class="card-title"><span class="icon">⏱️</span> Pipeline Performance</div>
+          <div id="timing-breakdown"></div>
+        </div>
+      </div>
+
+    </section>
+  </div>
+
+  <!-- History Drawer -->
+  <div class="history-overlay" id="history-overlay" onclick="toggleHistory()"></div>
+  <aside class="history-drawer" id="history-drawer">
+    <div class="drawer-header">
+      <h3>Generation History</h3>
+      <button class="drawer-close" onclick="toggleHistory()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="drawer-body" id="history-list">
+      <p class="empty-state">No generations yet. Enter a keyword to get started.</p>
+    </div>
+  </aside>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
