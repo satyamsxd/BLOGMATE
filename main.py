@@ -1,28 +1,54 @@
 """
-Blogy — FastAPI Application
+Blogmate — FastAPI Application
 Main entry point for the AI Content Intelligence Engine.
 Supports real-time SSE streaming, provider health monitoring, and generation history.
 """
 
 import json
+import os
 import traceback
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, HTTPException, Depends
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import HTMLResponse, JSONResponse, StreamingResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
 from pipeline import orchestrator
 from providers.manager import get_manager
 
-app = FastAPI(title="Blogy — AI Content Intelligence Engine")
+# ── Rate Limiter setup ────────────────────────────────────────────────────
+limiter = Limiter(key_func=get_remote_address)
+app = FastAPI(title="Blogmate — AI Content Intelligence Engine")
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
-# CORS middleware for development
+# ── CORS: restrict to configured allowed origins ──────────────────────────
+_raw_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:8000")
+ALLOWED_ORIGINS = [o.strip() for o in _raw_origins.split(",") if o.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
+    allow_origins=ALLOWED_ORIGINS,
+    allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
+
+# ── API Key Authentication ────────────────────────────────────────────────
+API_KEY = os.getenv("BLOGMATE_API_KEY", "")
+
+def verify_api_key(request: Request):
+    """Dependency: validates X-API-Key header on protected routes."""
+    if not API_KEY:
+        # No key configured → auth disabled (dev mode)
+        return
+    client_key = request.headers.get("X-API-Key", "")
+    if client_key != API_KEY:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid or missing API key. Include 'X-API-Key: <your-key>' header.",
+        )
 
 
 class GenerateRequest(BaseModel):
@@ -34,8 +60,9 @@ generation_history: list[dict] = []
 
 
 @app.post("/api/generate")
-def generate_blog(req: GenerateRequest):
-    """Full pipeline execution — returns complete result."""
+@limiter.limit("10/minute")
+def generate_blog(request: Request, req: GenerateRequest, _: None = Depends(verify_api_key)):
+    """Full pipeline execution — returns complete result. Rate limited: 10/min per IP."""
     try:
         keyword = req.keyword.strip()
         if not keyword:
@@ -59,8 +86,9 @@ def generate_blog(req: GenerateRequest):
 
 
 @app.post("/api/generate/stream")
-async def generate_blog_stream(req: GenerateRequest):
-    """Streaming pipeline execution — sends real-time stage progress via SSE."""
+@limiter.limit("10/minute")
+async def generate_blog_stream(request: Request, req: GenerateRequest, _: None = Depends(verify_api_key)):
+    """Streaming pipeline execution — sends real-time stage progress via SSE. Rate limited: 10/min per IP."""
     keyword = req.keyword.strip()
     if not keyword:
         return JSONResponse(status_code=400, content={"error": "Keyword is required"})
@@ -116,7 +144,8 @@ async def generate_blog_stream(req: GenerateRequest):
 # ── Provider Health Endpoints ─────────────────────────────────────────────
 
 @app.get("/api/providers/health")
-async def provider_health():
+@limiter.limit("60/minute")
+async def provider_health(request: Request, _: None = Depends(verify_api_key)):
     """Return health metrics for all configured providers."""
     try:
         manager = get_manager()
@@ -130,7 +159,8 @@ async def provider_health():
 
 
 @app.get("/api/providers/active")
-async def active_providers():
+@limiter.limit("60/minute")
+async def active_providers(request: Request, _: None = Depends(verify_api_key)):
     """Return list of active (configured + healthy) providers."""
     try:
         manager = get_manager()
@@ -143,7 +173,8 @@ async def active_providers():
 
 
 @app.get("/api/history")
-async def get_history():
+@limiter.limit("60/minute")
+async def get_history(request: Request, _: None = Depends(verify_api_key)):
     """Return generation history."""
     return JSONResponse(content={"history": list(reversed(generation_history))})
 

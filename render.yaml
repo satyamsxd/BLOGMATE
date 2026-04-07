@@ -17,3 +17,7 @@ services:
         sync: false
       - key: PROVIDER_PRIORITY
         value: gemini,groq,openai,grok
+      - key: BLOGMATE_API_KEY
+        sync: false   # Set this as a secret in the Render dashboard
+      - key: ALLOWED_ORIGINS
+        value: "https://blogmate.onrender.com"  # Change to your actual Render URL
