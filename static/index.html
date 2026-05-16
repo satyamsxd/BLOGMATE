@@ -16,17 +16,34 @@
     
     <!-- ── Sidebar ──────────────────────────────────────────────────────── -->
     <aside class="sidebar" id="sidebar">
+      <!-- Sidebar Top: Brand + Workspace -->
       <div class="sidebar-header">
-        <span class="sidebar-eyebrow">SEO OPTIMIZED INTELLIGENCE</span>
         <div class="sidebar-brand">
-          <svg class="brand-icon" width="22" height="22" viewBox="0 0 24 24" fill="none">
-            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="url(#brand-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <defs><linearGradient id="brand-grad" x1="3" y1="2" x2="21" y2="22"><stop stop-color="#06b6d4"/><stop offset="1" stop-color="#3b82f6"/></linearGradient></defs>
-          </svg>
-          <h1>BLOGMATE</h1>
+          <div class="brand-logo">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="url(#brand-grad)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              <defs><linearGradient id="brand-grad" x1="3" y1="2" x2="21" y2="22"><stop stop-color="#a78bfa"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
+            </svg>
+          </div>
+          <div>
+            <h1>BLOGMATE</h1>
+            <span class="brand-tier">AI Content Engine</span>
+          </div>
+          <span class="brand-version">PRO</span>
         </div>
       </div>
 
+      <!-- Workspace Selector -->
+      <div class="sidebar-workspace">
+        <div class="workspace-avatar">B</div>
+        <div class="workspace-info">
+          <span class="workspace-name">My Workspace</span>
+          <span class="workspace-plan">Pro Plan • Unlimited</span>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="sidebar-section-label">MAIN MENU</div>
       <nav class="sidebar-nav">
         <a class="nav-item active" data-view="dashboard" onclick="switchView('dashboard')">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
@@ -35,6 +52,7 @@
         <a class="nav-item" data-view="blog-generation" onclick="switchView('blog-generation')">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
           <span>Blog Generation</span>
+          <span class="nav-badge">AI</span>
         </a>
         <a class="nav-item" data-view="seo-analysis" onclick="switchView('seo-analysis')">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
@@ -44,33 +62,34 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
           <span>SERP Gaps</span>
         </a>
+      </nav>
+
+      <div class="sidebar-section-label">SYSTEM</div>
+      <nav class="sidebar-nav">
         <a class="nav-item" data-view="settings" onclick="switchView('settings')">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
           <span>Settings</span>
         </a>
       </nav>
 
+      <!-- System Health Mini Widget -->
+      <div class="sidebar-health">
+        <div class="health-row"><span>Pipeline</span><span class="health-dot health-ok"></span></div>
+        <div class="health-row"><span>AI Providers</span><span class="health-dot health-ok" id="sidebar-provider-dot"></span></div>
+        <div class="health-row"><span>Rate Limits</span><span class="health-dot health-ok"></span></div>
+      </div>
+
       <div class="sidebar-footer">
         <button class="new-analysis-btn" onclick="switchView('blog-generation'); setTimeout(()=>document.getElementById('keyword-input').focus(),150);">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           New Analysis
         </button>
-        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;padding:0.6rem 0.8rem;background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.12);border-radius:var(--radius-md);">
-          <span style="font-size:0.7rem;">✨</span>
-          <span style="font-size:0.72rem;color:var(--text-muted);">Powered by Multi-AI Pipeline</span>
+        <div class="sidebar-shortcut">
+          <kbd>Ctrl</kbd>+<kbd>Enter</kbd> Quick Generate
         </div>
-        <a class="sidebar-link">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-          Help Center
-        </a>
-        <a class="sidebar-link">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          Documentation
-        </a>
       </div>
     </aside>
 
-    <!-- ── Mobile Sidebar Toggle ────────────────────────────────────────── -->
     <button class="sidebar-toggle" id="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </button>
@@ -109,75 +128,81 @@
         <!-- VIEW: Dashboard                                                 -->
         <!-- ════════════════════════════════════════════════════════════════ -->
         <section class="view active" id="view-dashboard">
-          <div class="view-header">
-            <div>
-              <h1 class="view-title" id="dash-greeting">Welcome to BLOGMATE</h1>
-              <p class="view-subtitle">Transform keywords into ranking-ready content with AI intelligence</p>
-            </div>
-            <div style="display:flex;gap:0.5rem;align-items:center;">
-              <span style="font-size:0.7rem;color:var(--brand-violet);font-weight:700;background:var(--brand-violet-dim);padding:0.3rem 0.7rem;border-radius:var(--radius-full);border:1px solid rgba(139,92,246,0.2);">v2.0 Pro</span>
+          <!-- Hero Banner -->
+          <div class="hero-banner">
+            <div class="hero-grid-pattern"></div>
+            <div class="hero-content">
+              <div class="hero-left">
+                <div class="hero-badge"><span class="hero-badge-dot"></span> AI-Powered Engine</div>
+                <h1 class="hero-title" id="dash-greeting">Welcome to BLOGMATE</h1>
+                <p class="hero-desc">Transform any keyword into a ranking-ready, SEO-optimized blog post through our 6-stage AI pipeline. Powered by multi-provider orchestration.</p>
+                <div class="hero-actions">
+                  <button class="hero-cta" onclick="switchView('blog-generation'); setTimeout(()=>document.getElementById('keyword-input').focus(),150);">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    Start Generating
+                  </button>
+                  <button class="hero-secondary" onclick="switchView('seo-analysis')">View Analytics</button>
+                </div>
+              </div>
+              <div class="hero-right">
+                <div class="hero-metric-stack">
+                  <div class="hero-metric"><span class="hero-metric-val" id="dash-total-gen">0</span><span class="hero-metric-label">Blogs Generated</span></div>
+                  <div class="hero-metric"><span class="hero-metric-val" id="dash-avg-seo">—</span><span class="hero-metric-label">Avg SEO Score</span></div>
+                  <div class="hero-metric"><span class="hero-metric-val" id="dash-total-words">0</span><span class="hero-metric-label">Words Written</span></div>
+                  <div class="hero-metric"><span class="hero-metric-val" id="dash-providers">—</span><span class="hero-metric-label">AI Providers</span></div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="dashboard-stats" id="dashboard-stats">
-            <div class="dash-stat-card">
-              <div class="dash-stat-icon" style="background:rgba(6,182,212,0.1);color:#06b6d4;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <!-- Pipeline Features -->
+          <div class="features-grid">
+            <div class="feature-card" onclick="switchView('blog-generation'); setTimeout(()=>document.getElementById('keyword-input').focus(),150);">
+              <div class="feature-icon-wrap" style="--accent:#8b5cf6;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
               </div>
-              <div class="dash-stat-value" id="dash-total-gen">0</div>
-              <div class="dash-stat-label">Total Generations</div>
+              <div class="feature-text">
+                <h3>AI Blog Generation</h3>
+                <p>6-stage pipeline: keyword intel → SERP analysis → strategy → generation → SEO audit → linking</p>
+              </div>
+              <div class="feature-arrow">→</div>
             </div>
-            <div class="dash-stat-card">
-              <div class="dash-stat-icon" style="background:rgba(16,185,129,0.1);color:#10b981;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+            <div class="feature-card" onclick="switchView('seo-analysis')">
+              <div class="feature-icon-wrap" style="--accent:#06b6d4;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
               </div>
-              <div class="dash-stat-value" id="dash-avg-seo">—</div>
-              <div class="dash-stat-label">Avg SEO Score</div>
+              <div class="feature-text">
+                <h3>SEO & Readability Audit</h3>
+                <p>Flesch scoring, keyword density analysis, naturalness detection, snippet readiness checks</p>
+              </div>
+              <div class="feature-arrow">→</div>
             </div>
-            <div class="dash-stat-card">
-              <div class="dash-stat-icon" style="background:rgba(167,139,250,0.1);color:#a78bfa;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            <div class="feature-card" onclick="switchView('serp-gaps')">
+              <div class="feature-icon-wrap" style="--accent:#10b981;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
               </div>
-              <div class="dash-stat-value" id="dash-total-words">0</div>
-              <div class="dash-stat-label">Total Words Written</div>
-            </div>
-            <div class="dash-stat-card">
-              <div class="dash-stat-icon" style="background:rgba(59,130,246,0.1);color:#3b82f6;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              <div class="feature-text">
+                <h3>SERP Gap Intelligence</h3>
+                <p>Identify content gaps, discover competitor weaknesses, map ranking opportunities</p>
               </div>
-              <div class="dash-stat-value" id="dash-providers">—</div>
-              <div class="dash-stat-label">Active Providers</div>
-            </div>
-          </div>
-
-          <div class="dashboard-quickstart">
-            <div class="quickstart-card" onclick="switchView('blog-generation'); setTimeout(()=>document.getElementById('keyword-input').focus(),150);">
-              <div class="quickstart-icon">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-              </div>
-              <h3>New Analysis</h3>
-              <p>Enter a keyword to generate an SEO-optimized blog post with full analysis</p>
-            </div>
-            <div class="quickstart-card" onclick="switchView('seo-analysis')">
-              <div class="quickstart-icon">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
-              </div>
-              <h3>SEO Report</h3>
-              <p>Deep dive into readability, keyword density, and naturalness metrics</p>
-            </div>
-            <div class="quickstart-card" onclick="switchView('serp-gaps')">
-              <div class="quickstart-icon">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-              </div>
-              <h3>SERP Gaps</h3>
-              <p>Discover content gaps and ranking opportunities in your niche</p>
+              <div class="feature-arrow">→</div>
             </div>
           </div>
 
+          <!-- Recent Activity -->
           <div class="section-card">
-            <h2 class="section-title">Recent Activity</h2>
+            <div class="section-header-row">
+              <h2 class="section-title">📋 Recent Activity</h2>
+              <button class="mini-btn" onclick="toggleHistory()">View All</button>
+            </div>
             <div id="dashboard-history">
-              <p class="empty-state-text">No generations yet. Start by creating a new analysis.</p>
+              <div class="empty-activity">
+                <div class="empty-activity-icon">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </div>
+                <h4>No generations yet</h4>
+                <p>Your generated blogs will appear here as a timeline</p>
+              </div>
             </div>
           </div>
         </section>
