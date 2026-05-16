@@ -12,6 +12,7 @@ let pipelineTimerInterval = null;
 document.addEventListener('DOMContentLoaded', () => {
   fetchProviderStatus();
   loadHistory();
+  updateGreeting();
   
   // Set initial view
   const hash = window.location.hash.replace('#', '') || 'dashboard';
@@ -24,6 +25,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.key === 'Enter') startGeneration();
     });
   }
+
+  // Ctrl+Enter global shortcut
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      switchView('blog-generation');
+      setTimeout(() => { document.getElementById('keyword-input').focus(); }, 150);
+    }
+  });
 });
 
 // ── View Management ──────────────────────────────────────────────────────
@@ -61,6 +70,10 @@ function showProgress() {
   document.getElementById('pipeline-progress').classList.add('active');
   document.getElementById('blog-output').classList.remove('visible');
   document.getElementById('error-banner').classList.remove('visible');
+  
+  // Hide feature preview when generating
+  const fp = document.getElementById('feature-preview');
+  if (fp) fp.style.display = 'none';
   
   // Show generating states on empty placeholders
   document.getElementById('seo-empty-state').classList.add('hidden');
@@ -460,15 +473,38 @@ function renderSnippet(r) {
 // ── Dashboard Overview Data ──────────────────────────────────────────────
 function updateDashboardStats() {
   const history = JSON.parse(localStorage.getItem('blogy_history') || '[]');
-  document.getElementById('dash-total-gen').textContent = history.length;
+  animateCounter('dash-total-gen', history.length);
   
   if (history.length) {
     const avgSeo = Math.round(history.reduce((acc, h) => acc + h.seo_score, 0) / history.length);
-    document.getElementById('dash-avg-seo').textContent = avgSeo;
+    animateCounter('dash-avg-seo', avgSeo);
     const totWords = history.reduce((acc, h) => acc + h.word_count, 0);
-    // abbreviate
-    document.getElementById('dash-total-words').textContent = totWords > 1000 ? (totWords/1000).toFixed(1) + 'k' : totWords;
+    if (totWords > 1000) {
+      document.getElementById('dash-total-words').textContent = (totWords/1000).toFixed(1) + 'k';
+    } else {
+      animateCounter('dash-total-words', totWords);
+    }
   }
+}
+
+function animateCounter(id, target) {
+  const el = document.getElementById(id);
+  if (!el || target === 0) { if(el) el.textContent = target; return; }
+  let current = 0;
+  const step = Math.max(1, Math.ceil(target / 30));
+  const interval = setInterval(() => {
+    current += step;
+    if (current >= target) { current = target; clearInterval(interval); }
+    el.textContent = current;
+  }, 30);
+}
+
+function updateGreeting() {
+  const el = document.getElementById('dash-greeting');
+  if (!el) return;
+  const h = new Date().getHours();
+  const g = h < 12 ? 'Good Morning' : h < 17 ? 'Good Afternoon' : 'Good Evening';
+  el.textContent = g + ' — BLOGMATE';
 }
 
 // ── Export / History / Utils ─────────────────────────────────────────────

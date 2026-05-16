@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css?v=2.0">
+  <link rel="stylesheet" href="/styles.css?v=3.0">
 </head>
 <body>
   <div class="app-layout">
@@ -55,6 +55,10 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           New Analysis
         </button>
+        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;padding:0.6rem 0.8rem;background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.12);border-radius:var(--radius-md);">
+          <span style="font-size:0.7rem;">✨</span>
+          <span style="font-size:0.72rem;color:var(--text-muted);">Powered by Multi-AI Pipeline</span>
+        </div>
         <a class="sidebar-link">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
           Help Center
@@ -107,8 +111,11 @@
         <section class="view active" id="view-dashboard">
           <div class="view-header">
             <div>
-              <h1 class="view-title">Welcome to BLOGMATE</h1>
-              <p class="view-subtitle">AI-powered content intelligence engine — keyword to ranking-ready blog</p>
+              <h1 class="view-title" id="dash-greeting">Welcome to BLOGMATE</h1>
+              <p class="view-subtitle">Transform keywords into ranking-ready content with AI intelligence</p>
+            </div>
+            <div style="display:flex;gap:0.5rem;align-items:center;">
+              <span style="font-size:0.7rem;color:var(--brand-violet);font-weight:700;background:var(--brand-violet-dim);padding:0.3rem 0.7rem;border-radius:var(--radius-full);border:1px solid rgba(139,92,246,0.2);">v2.0 Pro</span>
             </div>
           </div>
 
@@ -199,6 +206,36 @@
                   Generate Blog
                 </span>
               </button>
+            </div>
+          </div>
+
+          <!-- Feature Preview (shown before generation) -->
+          <div class="feature-preview" id="feature-preview">
+            <div style="text-align:center;padding:2rem 0 1.5rem;">
+              <h3 style="font-size:1.3rem;font-family:var(--font-display);font-weight:700;margin-bottom:0.5rem;">What You'll Get</h3>
+              <p style="color:var(--text-muted);font-size:0.9rem;">Enter a keyword above to generate all of this automatically</p>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+              <div class="section-card" style="text-align:center;padding:1.5rem;">
+                <div style="font-size:1.8rem;margin-bottom:0.5rem;">📝</div>
+                <div style="font-weight:700;font-family:var(--font-display);margin-bottom:0.25rem;">2000+ Word Blog</div>
+                <div style="font-size:0.8rem;color:var(--text-muted);">SEO-optimized content</div>
+              </div>
+              <div class="section-card" style="text-align:center;padding:1.5rem;">
+                <div style="font-size:1.8rem;margin-bottom:0.5rem;">📊</div>
+                <div style="font-weight:700;font-family:var(--font-display);margin-bottom:0.25rem;">SEO Analysis</div>
+                <div style="font-size:0.8rem;color:var(--text-muted);">Score + readability audit</div>
+              </div>
+              <div class="section-card" style="text-align:center;padding:1.5rem;">
+                <div style="font-size:1.8rem;margin-bottom:0.5rem;">🤖</div>
+                <div style="font-weight:700;font-family:var(--font-display);margin-bottom:0.25rem;">GEO Optimization</div>
+                <div style="font-size:0.8rem;color:var(--text-muted);">AI engine extractable</div>
+              </div>
+              <div class="section-card" style="text-align:center;padding:1.5rem;">
+                <div style="font-size:1.8rem;margin-bottom:0.5rem;">🔗</div>
+                <div style="font-weight:700;font-family:var(--font-display);margin-bottom:0.25rem;">Internal Links</div>
+                <div style="font-size:0.8rem;color:var(--text-muted);">Smart link suggestions</div>
+              </div>
             </div>
           </div>
 
@@ -548,6 +585,6 @@
   <div class="toast" id="toast"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="/app.js?v=2.0"></script>
+  <script src="/app.js?v=3.0"></script>
 </body>
 </html>
